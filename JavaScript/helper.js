@@ -2,33 +2,32 @@ function clearCanvas() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-function createBullet() {
-  this.bullet = new Bullet();
-  bullets.push(bullet);
-  if (char.isRight === true) {
-    char.isbulletRight = true;
+function createBullet(char) {
+  this.char = char;
+  this.bullet = new Bullet(this.char);
+  if (this.char.isRight) {
+    this.bullet.isRight = true;
   } else {
-    char.isbulletRight = false;
+    this.bullet.isbulletRight = false;
   }
+  bullets.push(this.bullet);
 }
 
 function updateBullet() {
-  if (char.isbulletRight === true) {
     bullets.forEach(function(bullet, bulletIndex) {
-      if (bullet.y > canvas.width) {
-        bullets.splice(bulletIndex, 1);
-      } else {
+
+      if(bullet.x>canvas.width || bullet.y>canvas.height)
+      {
+        bullets.splice(bulletIndex,1);
+      }
+      if(bullet.isRight)
+        {
         bullet.x += bullet.xs;
         bullet.y += bullet.ys;
         bullet.ys += bullet.gravity;
         bullet.draw();
-      }
-    });
-  } else {
-    bullets.forEach(function(bullet, bulletIndex) {
-      if (bullet.y > canvas.width) {
-        bullets.splice(bulletIndex, 1);
-      } else {
+        } 
+      else {
         bullet.x -= bullet.xs;
         bullet.y += bullet.ys;
         bullet.ys += bullet.gravity;
@@ -36,7 +35,6 @@ function updateBullet() {
       }
     });
   }
-}
 
 this.isCollision = function(obj1, obj2) {
   return (
@@ -47,28 +45,36 @@ this.isCollision = function(obj1, obj2) {
   );
 };
 
+this.calculateDistance = function(obj1,obj2)
+{
+  return Math.sqrt(Math.pow(obj2.x-obj1.x,2)+this.Math.pow(obj2.y-obj1.y,2))
+}
+
 function killPlayer()
 {
   enemies.forEach(function(enemy,enemyIndex)
   {
-    if(enemy.health==5)
+    players.forEach(function(char,charIndex)
+    {
+    if(enemy.health==enemy.enemyName.health)
     {
       if(isCollision(char,enemy))
       {
-        char.isPlayerDead = true;
-        enemies = [];
+        players.splice(charIndex,1);
       }
     }
   })
+})
 }
 
 function checkIfDead()
 {
-  if(char.isPlayerDead)
+  if(players.length==0)
   {
+    enemies=[];
     ctx.font = "30px Arial";
-        ctx.textAlign = "center";
-        ctx.fillText("Game Over! ", canvas.width/2, canvas.height/2);
+    ctx.textAlign = "center";
+    ctx.fillText("Game Over! ", canvas.width/2, canvas.height/2);
   }
 }
 
@@ -90,13 +96,12 @@ function killEnemy()
 {
   enemies.forEach(function(enemy,enemyIndex)
   {
+    players.forEach(function(char,charIndex)
+    {
     if(enemy.health==0)
     {
       if(isCollision(char,enemy))
       {
-
-        if(enemy.isRight)
-        {
           if(char.isRight)
           {
             enemy.xs = 5;
@@ -104,16 +109,6 @@ function killEnemy()
           else{
           enemy.xs = -5;
           }
-        }
-        else{
-        if(char.isRight)
-        {
-          enemy.xs = -5;
-        }
-        else{
-        enemy.xs = 5;
-        }
-      }
         enemy.gravity = 5;
         enemy.isCollided = true;
       }
@@ -133,38 +128,50 @@ function killEnemy()
       }
     }
   })
+})
 }
 
 function moveEnemies() {
-  
     enemies.forEach(function(enemy, enemyIndex) {
+      players.forEach(function(char,charIndex)
+      {
+      if(enemy.falling &&!enemy.isCollided) 
+      {
+       enemy.xs = enemy.tempxs; 
+        if(enemy.x>=char.x)
+        {
+          enemy.xs = -enemy.xs;
+        }
+      }
       if(!enemy.falling)
       {
         if(enemy.x<=0 || enemy.x >= canvas.width-50)
         {
           enemy.xs = -enemy.xs;
         }
-        if(enemy.health==5 || enemy.isCollided)
+        if(enemy.health==enemy.enemyName.health || enemy.isCollided)
         {
-          if(enemy.isRight)
-          {
-            enemy.x += enemy.xs;
-          }
-          else
-          {
-        enemy.x -= enemy.xs;
-          }
+          enemy.x += enemy.xs;
+        //   if(enemy.isRight)
+        //   {
+        //     enemy.x += enemy.xs;
+        //   }
+        //   else
+        //   {
+        // enemy.x -= enemy.xs;
+        //   }
         }
         enemy.createEnemies();
       }
       enemy.createGravity();
   });
+})
 }
 
 function checkEnemiesStatus()
 {
     enemies.forEach(function(enemy, enemyIndex) {
-      if(enemy.health < 5 && !enemy.isCollided)
+      if(enemy.health < enemy.enemyName.health && !enemy.isCollided)
       {
         enemy.meltCounter++;
       }
@@ -175,6 +182,20 @@ function checkEnemiesStatus()
       }
   });
 }
+
+// function bulletCollision()
+// {
+//   bullets.forEach(function(bullet,bulletIndex)
+//   {
+//     bullet.posX=Math.floor(bullet.x/game.tileW);
+//     bullet.posY=Math.floor(bullet.y/game.tileH);
+
+//     if(game.gameMap[(game.mapW*(bullet.posY+1)+(bullet.posX+1)-1)]===1)
+//     {
+//         bullets.splice(bulletIndex,1);
+//       }
+//   });
+// }
 
 
 

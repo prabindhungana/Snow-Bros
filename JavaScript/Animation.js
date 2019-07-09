@@ -6,6 +6,8 @@ function loop() {
   clearCanvas();
   game.insertBackground();
   game.createMap();
+  players.forEach(function(char,charIndex)
+  {
   if (!char.falling && !char.jumping) {
     char.generateCharacter();
   }
@@ -14,6 +16,7 @@ function loop() {
   char.createGravity();
   }
   char.moveUp();
+});
   updateBullet();
   moveEnemies();
   freezeEnemy();
@@ -21,4 +24,5 @@ function loop() {
   killPlayer();
   checkIfDead();
   checkEnemiesStatus();
+  // bulletCollision();
 }

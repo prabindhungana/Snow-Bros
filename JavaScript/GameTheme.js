@@ -45,7 +45,7 @@ this.createMap = function() {
                     ctx.drawImage(this.tiles, 0, 0, 27, 48, x * this.tileW, y * this.tileH, this.tileW, this.tileH);
                     break;
                 case 2:
-                    ctx.drawImage(this.tiles, 26, 0, 27, 48, x * this.tileW, y * this.tileH, this.tileW, this.tileH);
+                    ctx.drawImage(this.tiles, 26, 0, 27, 48, x * this.tileW, y * this.tileH, this.tileW, this.tileH)
                     break;
                 case 3:
                     ctx.drawImage(this.tiles, 81, 0, 27, 48, x * this.tileW, y * this.tileH, this.tileW, this.tileH);

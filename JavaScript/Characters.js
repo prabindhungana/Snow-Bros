@@ -1,6 +1,10 @@
-function Player(x, y) {
+function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
   this.x = x;
   this.y = y;
+  this.leftKey = leftKey;
+  this.rightkey = rightKey;
+  this.jumpKey = jumpKey;
+  this.shootKey = shootKey;
   this.width = 50;
   this.height = 50;
   this.gravity = 2;
@@ -12,18 +16,9 @@ function Player(x, y) {
   this.leftCount = 0;
   this.falling = false;
   this.isRight = false;
-  this.isbulletRight = false;
   this.jumping = false;
   this.jumpCount = 0;
   this.isPlayerDead = false;
-  this.charracterImage.onload = function() {
-    char.init();
-  };
-
-  this.init = function() {
-
-    ctx.drawImage(this.charracterImage, 0, 0, 24, 30, this.x, this.y, this.width, this.height);
-  };
 
   this.moveRight = function() {
     this.isRight = true;
@@ -85,7 +80,7 @@ function Player(x, y) {
     }
     if(this.jumpCount==game.tileW/5*2)
     {
-      char.jumping = false;
+      this.jumping = false;
       this.jumpCount = 0;
     }
   }
@@ -124,10 +119,17 @@ function Player(x, y) {
   this.createGravity = function()
 {
   this.falling = false;
-  this.posX=Math.floor(char.x/game.tileW);
-  this.posY=Math.floor(char.y/game.tileH);
+  if(this.x/game.tileW-Math.floor(this.x/game.tileW)<0.5)
+  {
+  this.posX=Math.floor(this.x/game.tileW);
+  }
+  else
+  {
+    this.posX = Math.ceil(this.x/game.tileW);
+  }
+  this.posY=Math.floor(this.y/game.tileH);
 
-  if(game.gameMap[(game.mapW*(this.posY+1)+(this.posX+1)-1)]===0)
+  if(game.gameMap[((game.mapW*(this.posY+1)+(this.posX+1))-1)]===0)
   {
     this.falling = true;
     this.y+=this.gravity;
@@ -151,9 +153,10 @@ function Player(x, y) {
 
 }
 
-function Bullet(){
-  this.x = char.x;
-  this.y = char.y;
+function Bullet(char){
+  this.char = char;
+  this.x = this.char.x;
+  this.y = this.char.y;
   this.xs = 10
   this.ys = -3
   this.gravity = 0.5 
@@ -161,6 +164,7 @@ function Bullet(){
   this.spriteheight = 42
   this.sprCols = 2
   this.sprRows = 1
+  this.isRight = false;
   this.width = this.spriteWidth / this.sprCols
   this.height = this.spriteheight / this.sprRows
 
@@ -169,7 +173,7 @@ function Bullet(){
 
   this.draw = function()
   {  
-    switch(char.isbulletRight){
+    switch(this.isRight){
       case true:
         this.bullet.src = "./Images/bulletone_right2.png";
       break;
@@ -177,18 +181,23 @@ function Bullet(){
        this.bullet.src = "./Images/bulletone_left2.png";
       break;
     }    
-   ctx.drawImage(this.bullet,0, 0, 42, 42, this.x, this.y, this.width, this.height);       
-  }  
+   ctx.drawImage(this.bullet,0, 0, 42, 42, this.x, this.y, this.width, this.height);        
+  }
 }
 
 
-function Enemy(x,y)
+function Enemy(x,y,enemyName)
 {
+  this.enemyName = enemyName;
   this.xVelocity = 2;
   this.x = x;
   this.y = y;
   this.xs = 1;
+  this.tempxs = 1;
+  this.chaseCounter = 0;
+  this.snowChange = 0;
   this.isRight = false;
+  this.isgeneratedRight = false;
   this.isCollided = false;
   this.isCreated = false;
   this.isAlive = false;
@@ -197,7 +206,7 @@ function Enemy(x,y)
   this.gravity = 2;
   this.width = 50;
   this.height = 50;
-  this.health = 5;
+  this.health = this.enemyName.health;
   this.meltCounter = 0;
   this.enemyChar = new Image();
 
@@ -217,20 +226,60 @@ this.generateEnemies = function(i)
   this.createEnemies= function()
   {
     this.enemyChar.src = "./Images/sb2.gif";  
-   ctx.drawImage(this.enemyChar,120, 0,32,32, this.x, this.y, this.width, this.height);
+    switch(this.health)
+    {
+    case 0:
+      if(this.isCollided)
+      {
+        ctx.drawImage(this.enemyChar,108, 2096,25,22, this.x, this.y, this.width, this.height);
+      }
+      else
+        ctx.drawImage(this.enemyChar,108, 2096,24,22, this.x, this.y, this.width, this.height);
+        break;
+    case 1:
+        ctx.drawImage(this.enemyChar,this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+        ctx.drawImage(this.enemyChar,242, 2165,25,32, this.x, this.y, this.width, this.height);
+        break;
+    case 2:
+        ctx.drawImage(this.enemyChar,this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+        ctx.drawImage(this.enemyChar,217, 2165,25,32, this.x, this.y, this.width, this.height);
+        break
+    case 3:
+        ctx.drawImage(this.enemyChar,this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+        break;
+    case 4:
+        ctx.drawImage(this.enemyChar,this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+        break;
+    case 5:
+        ctx.drawImage(this.enemyChar,this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+        break;
+
+    }
   }  
 
-    this.createGravity = function()
+  this.createGravity = function()
   {
-    this.falling = false;
-    this.posX=Math.floor(this.x/game.tileW);
-    this.posY=Math.floor(this.y/game.tileH);
+  if(this.x/game.tileW-Math.floor(this.x/game.tileW)<0.5)
+  {
+  this.posX=Math.floor(this.x/game.tileW);
+  }
+  else
+  {
+    this.posX = Math.ceil(this.x/game.tileW);
+  }
+  this.posY=Math.floor(this.y/game.tileH);
   
     if(game.gameMap[(game.mapW*(this.posY+1)+(this.posX+1)-1)]===0)
     {
       this.falling = true;
       this.y+=this.gravity;
-      ctx.drawImage(this.enemyChar,120, 32,32,32, this.x, this.y, this.width, this.height);
+      if(!this.isCollided)
+      ctx.drawImage(this.enemyChar,this.enemyName.fallPosX, this.enemyName.fallPosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+      else
+      ctx.drawImage(this.enemyChar,108, 2096,24,22, this.x, this.y, this.width, this.height);
+      }
+      else{
+        this.falling = false;
       }
     }
   }

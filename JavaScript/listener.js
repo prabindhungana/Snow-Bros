@@ -1,25 +1,28 @@
 function movePlayer(event) {
+  players.forEach(function(char,charIndex)
+  {
     switch (event.keyCode) {
-      case 37:
+      case char.leftKey:
         if (!char.x <= 0 && !char.falling) {
           char.x -= 10;
           char.moveLeft();
         }
         break;
-      case 38:
+      case char.jumpKey:
           if(char.jumpCount==0 && !char.falling)
           {
           char.jumping=true;
           }
         break;
-      case 39:
+      case char.rightkey:
         if (char.x <= canvas.width - game.tileW && !char.falling) {
           char.x += 10;
           char.moveRight();
         }
         break;
-        case 32:
-          createBullet();
+        case char.shootKey:
+          createBullet(char);
           break;
     }
+  })
   }
