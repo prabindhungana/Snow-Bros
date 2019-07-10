@@ -243,15 +243,37 @@ this.generateEnemies = function(i)
         ctx.drawImage(this.enemyChar,108, 2096,24,22, this.x, this.y, this.width, this.height);
         break;
     case 1:
-        ctx.drawImage(this.enemyChar,this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+        if(this.ismovingRight)
+        {
+          ctx.drawImage(this.enemyChar,270, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+        }
+        else
+        {
+          ctx.drawImage(this.enemyChar,this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+        }
         ctx.drawImage(this.enemyChar,242, 2165,25,32, this.x, this.y, this.width, this.height);
         break;
     case 2:
-        ctx.drawImage(this.enemyChar,this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+      if(this.ismovingRight)
+        {
+          ctx.drawImage(this.enemyChar,270, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+        }
+        else
+        {
+          ctx.drawImage(this.enemyChar,this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+        }
         ctx.drawImage(this.enemyChar,217, 2165,25,32, this.x, this.y, this.width, this.height);
         break
     case 3:
+      if(this.ismovingRight)
+      {
+        ctx.drawImage(this.enemyChar,270, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+      }
+      else
+      {
         ctx.drawImage(this.enemyChar,this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+      }
+        
         break;
     case 4:
         ctx.drawImage(this.enemyChar,this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
@@ -281,7 +303,17 @@ this.generateEnemies = function(i)
       this.falling = true;
       this.y+=this.gravity;
       if(!this.isCollided)
-      ctx.drawImage(this.enemyChar,this.enemyName.fallPosX, this.enemyName.fallPosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+      {
+        if(this.ismovingRight)
+        {
+          ctx.drawImage(this.enemyChar,270, 32,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+        }
+        else
+        {
+          ctx.drawImage(this.enemyChar,this.enemyName.fallPosX, this.enemyName.fallPosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+        }
+      }
+      
       else
       ctx.drawImage(this.enemyChar,108, 2096,24,22, this.x, this.y, this.width, this.height);
     }
