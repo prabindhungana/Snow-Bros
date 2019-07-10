@@ -1,6 +1,7 @@
 function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
   this.x = x;
   this.y = y;
+  this.health = 3;
   this.leftKey = leftKey;
   this.rightkey = rightKey;
   this.jumpKey = jumpKey;
@@ -12,6 +13,7 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
   this.posY = 0;
   this.charracterImage = new Image();
   this.charracterImage.src = "./Images/sbd1.png";
+
   this.rightCount = 14;
   this.leftCount = 0;
   this.falling = false;
@@ -118,7 +120,6 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
 
   this.createGravity = function()
 {
-  this.falling = false;
   if(this.x/game.tileW-Math.floor(this.x/game.tileW)<0.5)
   {
   this.posX=Math.floor(this.x/game.tileW);
@@ -148,6 +149,9 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
     } else {
       ctx.drawImage(this.charracterImage, 0, 0, 24, 30, this.x, this.y, 50, 50);
     }
+  }
+  else{
+    this.falling = false;
   }
 }
 
@@ -194,8 +198,10 @@ function Enemy(x,y,enemyName)
   this.y = y;
   this.xs = 1;
   this.tempxs = 1;
+  this.jumping =false;
   this.chaseCounter = 0;
   this.snowChange = 0;
+  this.ismovingRight = false;
   this.isRight = false;
   this.isgeneratedRight = false;
   this.isCollided = false;
@@ -257,8 +263,9 @@ this.generateEnemies = function(i)
     }
   }  
 
-  this.createGravity = function()
+  this.createGravity = function(char)
   {
+    this.char = char;
   if(this.x/game.tileW-Math.floor(this.x/game.tileW)<0.5)
   {
   this.posX=Math.floor(this.x/game.tileW);
@@ -268,19 +275,36 @@ this.generateEnemies = function(i)
     this.posX = Math.ceil(this.x/game.tileW);
   }
   this.posY=Math.floor(this.y/game.tileH);
-  
     if(game.gameMap[(game.mapW*(this.posY+1)+(this.posX+1)-1)]===0)
     {
+      this.isMoving = false;
       this.falling = true;
       this.y+=this.gravity;
       if(!this.isCollided)
       ctx.drawImage(this.enemyChar,this.enemyName.fallPosX, this.enemyName.fallPosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
       else
       ctx.drawImage(this.enemyChar,108, 2096,24,22, this.x, this.y, this.width, this.height);
-      }
-      else{
-        this.falling = false;
-      }
+    }
+    else{
+      this.falling = false;
+    }
+      if(this.y>this.char.y && !this.isCollided)
+        {
+          if(this.ismovingRight)
+          {
+            if(((game.gameMap[(game.mapW*(this.posY-1)+(this.posX))]===1) || (game.gameMap[(game.mapW*(this.posY-1)+(this.posX))]===2)) && (game.gameMap[(game.mapW*(this.posY-1)+(this.posX-1))]===0))
+            {
+              this.y-=100;
+            }
+          }
+          else{
+            if(((game.gameMap[(game.mapW*(this.posY-1)+(this.posX))]===1) || (game.gameMap[(game.mapW*(this.posY-1)+(this.posX))]===2)) && (game.gameMap[(game.mapW*(this.posY-1)+(this.posX+1))]===0))
+            {
+              this.y-=100;
+            }
+
+          }
+        }
     }
   }
 

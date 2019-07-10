@@ -60,22 +60,36 @@ function killPlayer()
     {
       if(isCollision(char,enemy))
       {
-        players.splice(charIndex,1);
+        char.x = 250;
+        char.y = 50;
+        char.isRight = false;
+        char.health --;
       }
     }
   })
 })
 }
 
-function checkIfDead()
+function checkHealth()
 {
-  if(players.length==0)
+  this.health = new Image();
+  this.health.src = "./Images/heart.png";
+
+  players.forEach(function(char,charIndex)
   {
-    enemies=[];
-    ctx.font = "30px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText("Game Over! ", canvas.width/2, canvas.height/2);
-  }
+    for(var i=0;i<char.health;i++)
+    {
+      ctx.drawImage(this.health,0,0,32,32,50+50*i,0,40,40);
+    }
+      if(char.health==0)
+      {
+      enemies=[];
+      ctx.font = "30px Arial";
+      ctx.textAlign = "center";
+      ctx.fillText("Game Over! ", canvas.width/2, canvas.height/2);
+      }
+  })
+  
 }
 
 function freezeEnemy() {
@@ -129,41 +143,48 @@ function killEnemy()
     }
   })
 })
+
 }
 
 function moveEnemies() {
     enemies.forEach(function(enemy, enemyIndex) {
       players.forEach(function(char,charIndex)
       {
-      if(enemy.falling &&!enemy.isCollided) 
+      if(enemy.falling && !enemy.isCollided) 
       {
        enemy.xs = enemy.tempxs; 
         if(enemy.x>=char.x)
         {
           enemy.xs = -enemy.xs;
+          enemy.ismovingRight = false;
+        }
+        else{
+          enemy.ismovingRight = true;
         }
       }
       if(!enemy.falling)
       {
         if(enemy.x<=0 || enemy.x >= canvas.width-50)
         {
+          if(enemy.ismovingRight)
+          {
+            enemy.ismovingRight = false
+          }
+          else
+          {
+            enemy.ismovingRight = true;
+          }
           enemy.xs = -enemy.xs;
         }
         if(enemy.health==enemy.enemyName.health || enemy.isCollided)
         {
           enemy.x += enemy.xs;
-        //   if(enemy.isRight)
-        //   {
-        //     enemy.x += enemy.xs;
-        //   }
-        //   else
-        //   {
-        // enemy.x -= enemy.xs;
-        //   }
+
+          
         }
         enemy.createEnemies();
       }
-      enemy.createGravity();
+      enemy.createGravity(char);
   });
 })
 }

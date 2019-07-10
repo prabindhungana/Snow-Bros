@@ -11,20 +11,6 @@ this.tiles.src = './Images/background.png';
 this.background = new Image();
 this.background.src = './Images/bg.png';
 
-this.gameMap1 = [
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-    1, 2, 1, 2, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-    4, 0, 0, 0, 1, 2, 1, 2, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-    1, 2, 1, 2, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 2, 1, 2,
-    4, 0, 0, 0, 1, 2, 1, 2, 1, 2, 0, 0, 0, 0, 1, 2, 1, 2, 1, 2,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-    1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2
-]
 
 this.gameMap = [
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
@@ -48,6 +34,7 @@ window.onload = function()
 }
 this.insertBackground = function()
 {
+    console.log("Working");
     ctx.drawImage(this.background,0,0,1920,1200,0,0,canvas.width,canvas.height);
 }
 
@@ -59,7 +46,7 @@ this.createMap = function() {
                     ctx.drawImage(this.tiles, 0, 0, 27, 48, x * this.tileW, y * this.tileH, this.tileW, this.tileH);
                     break;
                 case 2:
-                    ctx.drawImage(this.tiles, 26, 0, 27, 48, x * this.tileW, y * this.tileH, this.tileW, this.tileH)
+                    ctx.drawImage(this.tiles, 26, 0, 27, 48, x * this.tileW, y * this.tileH, this.tileW, this.tileH);
                     break;
                 case 3:
                     ctx.drawImage(this.tiles, 81, 0, 27, 48, x * this.tileW, y * this.tileH, this.tileW, this.tileH);
