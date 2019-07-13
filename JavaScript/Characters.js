@@ -1,6 +1,9 @@
 function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
   this.x = x;
   this.y = y;
+  this.xs = 0;
+  this.ys = 5;
+  this.moveDiagonal = 1;
   this.health = 3;
   this.leftKey = leftKey;
   this.rightkey = rightKey;
@@ -9,11 +12,11 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
   this.width = 50;
   this.height = 50;
   this.gravity = 2;
+  this.yGravity = 0.2;
   this.posX = 0;
   this.posY = 0;
   this.charracterImage = new Image();
   this.charracterImage.src = "./Images/sbd1.png";
-
   this.rightCount = 14;
   this.leftCount = 0;
   this.falling = false;
@@ -24,17 +27,17 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
 
   this.moveRight = function() {
     this.isRight = true;
-    // ctx.drawImage(
-    //   this.charracterImage,
-    //   this.rightCount * 22,
-    //   0,
-    //   24,
-    //   30,
-    //   this.x,
-    //   this.y,
-    //   50,
-    //   50
-    // );
+    ctx.drawImage(
+      this.charracterImage,
+      this.rightCount * 22,
+      0,
+      24,
+      30,
+      this.x,
+      this.y,
+      50,
+      50
+    );
     this.rightCount++;
     if (this.rightCount === 17) {
       this.rightCount = 14;
@@ -64,7 +67,18 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
     if(this.jumping)
     {
       this.jumpCount++
-      this.y-=5;
+      // if(this.isRight)
+      // {
+      // this.y -= this.ys;
+      // this.x += this.xs;
+      // this.xs = this.moveDiagonal;
+      // }
+      // else{
+      //   this.y -= this.ys;
+      //   this.x -= this.xs;
+      //   this.xs = this.moveDiagonal;
+      // }
+      this.y -= this.ys;
     if (this.isRight == true) {
       ctx.drawImage(
         this.charracterImage,
@@ -84,6 +98,7 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
     {
       this.jumping = false;
       this.jumpCount = 0;
+      this.gravity = 2;
     }
   }
 
@@ -130,10 +145,11 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
   }
   this.posY=Math.floor(this.y/game.tileH);
 
-  if(game.gameMap[((game.mapW*(this.posY+1)+(this.posX+1))-1)]===0)
+  if(game.allgameLevels[game.currentLevel][((game.mapW*(this.posY+1)+(this.posX+1))-1)]===0)
   {
     this.falling = true;
     this.y+=this.gravity;
+    this.gravity += this.yGravity;
     if (this.isRight == true) {
       ctx.drawImage(
         this.charracterImage,
@@ -153,6 +169,7 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
   else{
     this.falling = false;
   }
+  
 }
 
 }
@@ -196,9 +213,11 @@ function Enemy(x,y,enemyName)
   this.xVelocity = 2;
   this.x = x;
   this.y = y;
+  this.ys = 4;
   this.xs = 1;
   this.tempxs = 1;
   this.jumping =false;
+  this.jumpcount = 0;
   this.chaseCounter = 0;
   this.snowChange = 0;
   this.ismovingRight = false;
@@ -209,6 +228,8 @@ function Enemy(x,y,enemyName)
   this.isAlive = false;
   this.falling = true;
   this.isMoving = true;
+  this.bulletCounter = 0;
+  this.bulletFlag = false;
   this.gravity = 2;
   this.width = 50;
   this.height = 50;
@@ -217,21 +238,9 @@ function Enemy(x,y,enemyName)
   this.enemyChar = new Image();
 
 
-this.generateEnemies = function(i)
-{
-  this.i = i;
-  this.isCreated = true;
-  this.isAlive = true;
-  if(enemies[this.i].x>500)
-  {
-    enemies[this.i].isRight = true;
-  }
- 
-}
-
   this.createEnemies= function()
   {
-    this.enemyChar.src = "./Images/sb2.gif";  
+    this.enemyChar.src = "./Images/sb2.gif";
     switch(this.health)
     {
     case 0:
@@ -273,36 +282,13 @@ this.generateEnemies = function(i)
       {
         ctx.drawImage(this.enemyChar,this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
       }
-        
-        break;
-    case 4:
-        ctx.drawImage(this.enemyChar,this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
-        break;
-    case 5:
-        ctx.drawImage(this.enemyChar,this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
-        break;
-
-    }
+  }
+    
   }  
 
-  this.createGravity = function(char)
+  this.setGravity = function()
   {
-    this.char = char;
-  if(this.x/game.tileW-Math.floor(this.x/game.tileW)<0.5)
-  {
-  this.posX=Math.floor(this.x/game.tileW);
-  }
-  else
-  {
-    this.posX = Math.ceil(this.x/game.tileW);
-  }
-  this.posY=Math.floor(this.y/game.tileH);
-    if(game.gameMap[(game.mapW*(this.posY+1)+(this.posX+1)-1)]===0)
-    {
-      this.isMoving = false;
-      this.falling = true;
-      this.y+=this.gravity;
-      if(!this.isCollided)
+    if(!this.isCollided && (this.jumping || this.falling))
       {
         if(this.ismovingRight)
         {
@@ -314,30 +300,10 @@ this.generateEnemies = function(i)
         }
       }
       
-      else
+      else if(this.isCollided)
       ctx.drawImage(this.enemyChar,108, 2096,24,22, this.x, this.y, this.width, this.height);
     }
-    else{
-      this.falling = false;
-    }
-      if(this.y>this.char.y && !this.isCollided)
-        {
-          if(this.ismovingRight)
-          {
-            if(((game.gameMap[(game.mapW*(this.posY-1)+(this.posX))]===1) || (game.gameMap[(game.mapW*(this.posY-1)+(this.posX))]===2)) && (game.gameMap[(game.mapW*(this.posY-1)+(this.posX-1))]===0))
-            {
-              this.y-=100;
-            }
-          }
-          else{
-            if(((game.gameMap[(game.mapW*(this.posY-1)+(this.posX))]===1) || (game.gameMap[(game.mapW*(this.posY-1)+(this.posX))]===2)) && (game.gameMap[(game.mapW*(this.posY-1)+(this.posX+1))]===0))
-            {
-              this.y-=100;
-            }
-
-          }
-        }
-    }
   }
+
 
 

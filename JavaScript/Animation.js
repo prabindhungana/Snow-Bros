@@ -18,11 +18,19 @@ function loop() {
   char.moveUp();
 });
   updateBullet();
+  jumpEnemy();
+  setEnemyGravity();
+  enemies.forEach(function(enemy, enemyIndex)
+  {
+    createEnemyBullet(enemy);
+  })
+  updateEnemyBullet();
   moveEnemies();
   freezeEnemy();
   killEnemy();
   killPlayer();
   checkHealth();
   checkEnemiesStatus();
+  levelChanger();
   // bulletCollision();
 }
