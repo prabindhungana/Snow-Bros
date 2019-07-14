@@ -54,3 +54,14 @@
     background-position-y: center;
     background-color: black
 }
+
+#loading
+{
+    width: 1000px;
+    height: 600px;
+    margin-left: 180px;
+    color: white;
+    text-align: center;
+    font-size: 50px;
+    background-color: black
+}
