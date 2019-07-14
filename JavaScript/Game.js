@@ -1,6 +1,11 @@
 function SnowBros()
 {
 
+audioLoader.audios['gamestart'].pause();
+audioLoader.audios['gamestart'].currentTime = 0;
+
+audioLoader.audios['startlevel'].play();
+
 this.noOfEnemies = 5;
 
 this.bullets = [];
@@ -17,6 +22,8 @@ this.complete = false;
 this.gameoverCounter =0;
 this.gamecompleteCounter =0;
 this.levelFlag = false;
+this.keyPressed = false;
+this.keyPressedCounter = 0;
 this.levelDelay =0;
 this.currentLevel = '1';
 

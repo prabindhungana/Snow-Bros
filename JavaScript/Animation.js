@@ -20,10 +20,13 @@ function loop() {
   updateBullet();
   jumpEnemy();
   setEnemyGravity();
+  if(game.currentLevel > 1)
+  {
   game.enemies.forEach(function(enemy, enemyIndex)
   {
     createEnemyBullet(enemy);
   })
+}
   updateEnemyBullet();
   moveEnemies();
   freezeEnemy();

@@ -124,10 +124,14 @@ function checkHealth() {
       game.gameoverCounter++;
       canvas.style.display = 'none';
       gameOver.style.display = 'block';
+      audioLoader.audios['startlevel'].pause();
+      audioLoader.audios['startlevel'].currentTime = 0;
+      audioLoader.audios['gameover'].play();
       if(game.gameoverCounter==200)
       {
         gameOver.style.display = 'none';
         menu.style.display = 'block';
+        audioLoader.audios['gamestart'].play();
         game=null;
         cancelAnimationFrame(requestanimationframe);
       }
@@ -312,7 +316,7 @@ function checkEnemiesStatus() {
     if (enemy.health < enemy.enemyName.health && !enemy.isCollided) {
       enemy.meltCounter++;
     }
-    if (enemy.meltCounter == 200) {
+    if (enemy.meltCounter == 200 && !game.paused) {
       enemy.health++;
       enemy.meltCounter = 0;
     }
@@ -332,6 +336,10 @@ function levelChanger() {
       });
     } else if (game.currentLevel == 2) {
       game.currentLevel++;
+      game.enemies.forEach(function(enemy,enemyIndex)
+      {
+        enemy.xs = 3;
+      })
       game.enemyCreator();
     }
       else if(game.currentLevel ==3)
@@ -343,6 +351,10 @@ function levelChanger() {
           if(game.gamecompleteCounter==200)
           {
             menu.style.display = 'block';
+            audioLoader.audios['startlevel'].pause();
+            audioLoader.audios['startlevel'].currentTime = 0;
+            audioLoader.audios['gamestart'].play();
+            gameComplete.style.display = 'none';
             cancelAnimationFrame(requestanimationframe);
           }
       }
@@ -371,7 +383,7 @@ function levelChanger() {
 //     bullet.posX=Math.floor(bullet.x/game.tileW);
 //     bullet.posY=Math.floor(bullet.y/game.tileH);
 
-//     if(game.allgameLevels[game.currentLevel][(game.mapW*(bullet.posY+1)+(bullet.posX+1)-1)]===1)
+//     if(game.allgameLevels[game.currentLevel][((game.mapW*(bullet.posY+1))+(bullet.posX))]===1)
 //     {
 //         game.bullets.splice(bulletIndex,1);
 //       }

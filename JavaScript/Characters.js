@@ -15,8 +15,6 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
   this.yGravity = 0.2;
   this.posX = 0;
   this.posY = 0;
-  this.charracterImage = new Image();
-  this.charracterImage.src = "./Images/sbd1.png";
   this.rightCount = 14;
   this.leftCount = 0;
   this.falling = false;
@@ -27,17 +25,6 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
 
   this.moveRight = function() {
     this.isRight = true;
-    ctx.drawImage(
-      this.charracterImage,
-      this.rightCount * 22,
-      0,
-      24,
-      30,
-      this.x,
-      this.y,
-      50,
-      50
-    );
     this.rightCount++;
     if (this.rightCount === 17) {
       this.rightCount = 14;
@@ -46,17 +33,6 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
 
   this.moveLeft = function() {
     this.isRight = false;
-    // ctx.drawImage(
-    //   this.charracterImage,
-    //   this.leftCount * 22,
-    //   0,
-    //   24,
-    //   30,
-    //   this.x,
-    //   this.y,
-    //   50,
-    //   50
-    // );
     this.leftCount++;
     if (this.leftCount === 3) {
       this.leftCount = 1;
@@ -67,21 +43,10 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
     if(this.jumping)
     {
       this.jumpCount++
-      // if(this.isRight)
-      // {
-      // this.y -= this.ys;
-      // this.x += this.xs;
-      // this.xs = this.moveDiagonal;
-      // }
-      // else{
-      //   this.y -= this.ys;
-      //   this.x -= this.xs;
-      //   this.xs = this.moveDiagonal;
-      // }
       this.y -= this.ys;
     if (this.isRight == true) {
       ctx.drawImage(
-        this.charracterImage,
+        imageLoader.images['character'],
         380,
         0,
         24,
@@ -92,7 +57,7 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
         50
       );
     } else {
-      ctx.drawImage(this.charracterImage, 0, 0, 24, 30, this.x, this.y, 50, 50);
+      ctx.drawImage(imageLoader.images['character'], 0, 0, 24, 30, this.x, this.y, 50, 50);
     }
     if(this.jumpCount==game.tileW/5*2)
     {
@@ -108,7 +73,7 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
   {
     if (this.isRight === true) {
       ctx.drawImage(
-        this.charracterImage,
+        imageLoader.images['character'],
         this.rightCount * 22,
         0,
         24,
@@ -120,7 +85,7 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
       );
     } else {
       ctx.drawImage(
-        this.charracterImage,
+        imageLoader.images['character'],
         this.leftCount * 22,
         0,
         24,
@@ -152,7 +117,7 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
     this.gravity += this.yGravity;
     if (this.isRight == true) {
       ctx.drawImage(
-        this.charracterImage,
+        imageLoader.images['character'],
         380,
         0,
         24,
@@ -163,7 +128,7 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
         50
       );
     } else {
-      ctx.drawImage(this.charracterImage, 0, 0, 24, 30, this.x, this.y, 50, 50);
+      ctx.drawImage(imageLoader.images['character'], 0, 0, 24, 30, this.x, this.y, 50, 50);
     }
   }
   else{
@@ -190,19 +155,17 @@ function Bullet(obj){
   this.height = this.spriteheight / this.sprRows
 
 
-  this.bullet = new Image();
 
   this.draw = function()
   {  
     switch(this.isRight){
       case true:
-        this.bullet.src = "./Images/bulletone_right2.png";
+        ctx.drawImage(imageLoader.images['rightbullet'],0,0,42,42,this.x,this.y,this.width,this.height);
       break;
       case false:
-       this.bullet.src = "./Images/bulletone_left2.png";
+        ctx.drawImage(imageLoader.images['leftbullet'],0,0,42,42,this.x,this.y,this.width,this.height);
       break;
-    }    
-   ctx.drawImage(this.bullet,0, 0, 42, 42, this.x, this.y, this.width, this.height);        
+    }            
   }
 }
 
