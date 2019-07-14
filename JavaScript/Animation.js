@@ -1,12 +1,12 @@
-new loop();
+
 
 function loop() {
-  requestAnimationFrame(loop);
+  requestanimationframe = requestAnimationFrame(loop);
   ctx.imageSmoothingEnabled = false;
   clearCanvas();
   game.insertBackground();
   game.createMap();
-  players.forEach(function(char,charIndex)
+  game.players.forEach(function(char,charIndex)
   {
   if (!char.falling && !char.jumping) {
     char.generateCharacter();
@@ -20,7 +20,7 @@ function loop() {
   updateBullet();
   jumpEnemy();
   setEnemyGravity();
-  enemies.forEach(function(enemy, enemyIndex)
+  game.enemies.forEach(function(enemy, enemyIndex)
   {
     createEnemyBullet(enemy);
   })

@@ -10,13 +10,13 @@ function createBullet(char) {
   } else {
     this.bullet.isbulletRight = false;
   }
-  bullets.push(this.bullet);
+  game.bullets.push(this.bullet);
 }
 
 function updateBullet() {
-  bullets.forEach(function(bullet, bulletIndex) {
+  game.bullets.forEach(function(bullet, bulletIndex) {
     if (bullet.x > canvas.width || bullet.y > canvas.height) {
-      bullets.splice(bulletIndex, 1);
+      game.bullets.splice(bulletIndex, 1);
     }
     if (bullet.isRight) {
       bullet.x += bullet.xs;
@@ -35,7 +35,7 @@ function updateBullet() {
 function createEnemyBullet(enemy)
 {
 this.enemy = enemy;
-  players.forEach(function(char,charIndex)
+  game.players.forEach(function(char,charIndex)
   {
     if(enemy.bulletCounter ==0 && enemy.health==enemy.enemyName.health && Math.abs(this.enemy.y - char.y) <= 50 && !enemy.falling && !enemy.jumping && !game.paused)
     {
@@ -46,7 +46,7 @@ this.enemy = enemy;
   } else {
     this.bullet.isbulletRight = false;
   }
-  EnemyBullets.push(this.bullet);
+  game.EnemyBullets.push(this.bullet);
 }
 if(enemy.bulletFlag)
 {
@@ -60,9 +60,9 @@ if(enemy.bulletFlag)
 }
 
 function updateEnemyBullet() {
-  EnemyBullets.forEach(function(bullet, bulletIndex) {
+  game.EnemyBullets.forEach(function(bullet, bulletIndex) {
     if (bullet.x > canvas.width || bullet.x < 0) {
-      EnemyBullets.splice(bulletIndex, 1);
+      game.EnemyBullets.splice(bulletIndex, 1);
     }
     if (bullet.isRight) {
       if(!game.paused)
@@ -86,26 +86,28 @@ this.isCollision = function(obj1, obj2) {
 };
 
 function killPlayer() {
-  players.forEach(function(char, charIndex) {
-    enemies.forEach(function(enemy, enemyIndex) {
+  game.players.forEach(function(char, charIndex) {
+    game.enemies.forEach(function(enemy, enemyIndex) {
       if (enemy.health == enemy.enemyName.health) {
         if (isCollision(char, enemy)) {
           char.x = 250;
           char.y = 50;
           char.isRight = false;
+          if(char.health>0)
           char.health--;
         }
       }
     });
-    EnemyBullets.forEach(function(bullet,bulletIndex)
+    game.EnemyBullets.forEach(function(bullet,bulletIndex)
     {
       if(isCollision(char,bullet))
       {
           char.x = 250;
           char.y = 50;
           char.isRight = false;
+          if(char.health>0)
           char.health--;
-          EnemyBullets.splice(bulletIndex, 1);
+          game.EnemyBullets.splice(bulletIndex, 1);
       }
     })
   });
@@ -114,34 +116,41 @@ function killPlayer() {
 
 function checkHealth() {
 
-  players.forEach(function(char, charIndex) {
+  game.players.forEach(function(char, charIndex) {
     for (var i = 0; i < char.health; i++) {
-      ctx.drawImage(game.heart, 0, 0, 32, 32, 50 + 50 * i, 0, 40, 40);
+      ctx.drawImage(imageLoader.images['health'], 0, 0, 32, 32, 50 + 50 * i, 0, 40, 40);
     }
     if (char.health == 0) {
-      ctx.font = "30px Arial";
-      ctx.textAlign = "center";
-      ctx.fillText("Game Over! ", canvas.width / 2, canvas.height / 2);
+      game.gameoverCounter++;
+      canvas.style.display = 'none';
+      gameOver.style.display = 'block';
+      if(game.gameoverCounter==200)
+      {
+        gameOver.style.display = 'none';
+        menu.style.display = 'block';
+        game=null;
+        cancelAnimationFrame(requestanimationframe);
+      }
     }
   });
 }
 
 function freezeEnemy() {
-  bullets.forEach(function(bullet, bulletIndex) {
-    enemies.forEach(function(enemy, enemyIndex) {
+  game.bullets.forEach(function(bullet, bulletIndex) {
+    game.enemies.forEach(function(enemy, enemyIndex) {
       if (isCollision(bullet, enemy)) {
         if (enemy.health != 0) {
           enemy.health--;
         }
-        bullets.splice(bulletIndex, 1);
+        game.bullets.splice(bulletIndex, 1);
       }
     });
   });
 }
 
 function killEnemy() {
-  enemies.forEach(function(enemy, enemyIndex) {
-    players.forEach(function(char, charIndex) {
+  game.enemies.forEach(function(enemy, enemyIndex) {
+    game.players.forEach(function(char, charIndex) {
       if (enemy.health == 0) {
         if (isCollision(char, enemy)) {
           if (char.isRight) {
@@ -152,10 +161,10 @@ function killEnemy() {
           enemy.gravity = 5;
           enemy.isCollided = true;
         }
-        for (var i = 0; i < enemies.length; i++) {
-          if (enemy != enemies[i] && enemy.isCollided) {
-            if (isCollision(enemy, enemies[i])) {
-              enemies.splice(i, 1);
+        for (var i = 0; i < game.enemies.length; i++) {
+          if (enemy != game.enemies[i] && enemy.isCollided) {
+            if (isCollision(enemy, game.enemies[i])) {
+              game.enemies.splice(i, 1);
             }
           }
         }
@@ -164,7 +173,7 @@ function killEnemy() {
           (enemy.x >= canvas.width - enemy.height &&
             enemy.y >= canvas.height - enemy.height * 2)
         ) {
-          enemies.splice(enemyIndex, 1);
+          game.enemies.splice(enemyIndex, 1);
         }
       }
     });
@@ -173,9 +182,9 @@ function killEnemy() {
 
 function jumpEnemy()
 {
-  enemies.forEach(function(enemy,enemyIndex)
+  game.enemies.forEach(function(enemy,enemyIndex)
   {
-    players.forEach(function(char,charindex)
+    game.players.forEach(function(char,charindex)
     {
       if(enemy.isAlive)
       {
@@ -222,9 +231,9 @@ function jumpEnemy()
 
 function setEnemyGravity()
 {
-  enemies.forEach(function(enemy,enemyIndex)
+  game.enemies.forEach(function(enemy,enemyIndex)
   {
-    players.forEach(function(char,charindex)
+    game.players.forEach(function(char,charindex)
     {
       if(enemy.isAlive)
       {
@@ -255,8 +264,8 @@ function setEnemyGravity()
 }
 
 function moveEnemies() {
-  enemies.forEach(function(enemy, enemyIndex) {
-    players.forEach(function(char, charIndex) {
+  game.enemies.forEach(function(enemy, enemyIndex) {
+    game.players.forEach(function(char, charIndex) {
       if (enemy.isAlive) {
         if (enemy.jumping && !game.paused) {
           enemy.jumpcount++;
@@ -299,7 +308,7 @@ function moveEnemies() {
 }
 
 function checkEnemiesStatus() {
-  enemies.forEach(function(enemy, enemyIndex) {
+  game.enemies.forEach(function(enemy, enemyIndex) {
     if (enemy.health < enemy.enemyName.health && !enemy.isCollided) {
       enemy.meltCounter++;
     }
@@ -311,44 +320,60 @@ function checkEnemiesStatus() {
 }
 
 function levelChanger() {
-  if (enemies.length == 0) {
+  if (game.enemies.length == 0) {
     game.levelFlag = true;
     if (game.currentLevel == 1) {
-      game.currentLevel = 2;
-      new enemyCreator();
-      players.forEach(function(char, charIndex) {
+      game.currentLevel++;
+      game.enemyCreator();
+      game.players.forEach(function(char, charIndex) {
         char.x = 650;
         char.y = 500;
         char.isRight = false;
       });
     } else if (game.currentLevel == 2) {
-      game.currentLevel = 3;
-      new enemyCreator();
+      game.currentLevel++;
+      game.enemyCreator();
     }
+      else if(game.currentLevel ==3)
+      {
+        game.gamecompleteCounter ++;
+        canvas.style.display = 'none'
+        gameComplete.style.display = 'block';
+
+          if(game.gamecompleteCounter==200)
+          {
+            menu.style.display = 'block';
+            cancelAnimationFrame(requestanimationframe);
+          }
+      }
   }
-  if (game.levelFlag == true) {
+  if (game.levelFlag == true && game.currentLevel<=3) {
     ctx.font = "30px Arial";
     ctx.textAlign = "center";
     ctx.fillText("Level: " + game.currentLevel, canvas.width / 2, 50);
     game.levelDelay++;
     if (game.levelDelay == 100) {
-      new enemyAnimator();
+      game.enemyAnimator();
       game.levelDelay = 0;
       game.levelFlag = false;
     }
   }
+  if(game.currentLevel>3)
+    {
+      game=null;
+    }
 }
 
 // function bulletCollision()
 // {
-//   bullets.forEach(function(bullet,bulletIndex)
+//   game.bullets.forEach(function(bullet,bulletIndex)
 //   {
 //     bullet.posX=Math.floor(bullet.x/game.tileW);
 //     bullet.posY=Math.floor(bullet.y/game.tileH);
 
 //     if(game.allgameLevels[game.currentLevel][(game.mapW*(bullet.posY+1)+(bullet.posX+1)-1)]===1)
 //     {
-//         bullets.splice(bulletIndex,1);
+//         game.bullets.splice(bulletIndex,1);
 //       }
 //   });
 // }

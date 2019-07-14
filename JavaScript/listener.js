@@ -1,5 +1,5 @@
 function movePlayer(event) {
-  players.forEach(function(char,charIndex)
+  game.players.forEach(function(char,charIndex)
   {
     if(!game.paused)
     {

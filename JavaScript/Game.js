@@ -1,23 +1,49 @@
 function SnowBros()
 {
+
+this.noOfEnemies = 5;
+
+this.bullets = [];
+this.enemies = [];
+this.players = [];
+this.EnemyBullets = [];
+
 this.tileW = 50;
 this.tileH = 50;
 this.mapW = 20;
 this.mapH = 12;
 this.paused = false;
 this.complete = false;
+this.gameoverCounter =0;
+this.gamecompleteCounter =0;
 this.levelFlag = false;
 this.levelDelay =0;
 this.currentLevel = '1';
 
-this.heart = new Image();
-this.heart.src = './Images/Heart.png';
+this.character = new Player(650,500,37,39,38,32);
+this.players.push(this.character);
 
-this.tiles = new Image();
-this.tiles.src = './Images/background.png';
+this.enemyCreator = function()
+{
+for(var i=0;i<this.noOfEnemies;i++)
+{
+var enemy = new Enemy(Math.floor((Math.random() * 18) + 1)*50,-50,enemyData.redEnemy);
+this.enemies.push(enemy);
+}
+}
 
-this.background = new Image();
-this.background.src = './Images/bg.png';
+this.enemyAnimator = function()
+{
+for(var i=0;i<this.noOfEnemies;i++)
+{
+this.enemies[i].createEnemies();
+this.enemies[i].isAlive = true;
+}
+}
+
+this.enemyCreator();
+this.enemyAnimator();
+
 
 this.allgameLevels =
 {
@@ -74,7 +100,7 @@ window.onload = function()
 }
 this.insertBackground = function()
 {
-    ctx.drawImage(this.background,0,0,1920,1200,0,0,canvas.width,canvas.height);
+    ctx.drawImage(imageLoader.images['background'],0,0,1920,1200,0,0,canvas.width,canvas.height);
 }
 
 this.createMap = function() {
@@ -82,16 +108,16 @@ this.createMap = function() {
         for (var x = 0; x < this.mapW; x++) {
             switch (this.allgameLevels[this.currentLevel][((y * this.mapW) + x)]) {
                 case 1:
-                    ctx.drawImage(this.tiles, 0, 0, 27, 48, x * this.tileW, y * this.tileH, this.tileW, this.tileH);
+                    ctx.drawImage(imageLoader.images['tiles'], 0, 0, 27, 48, x * this.tileW, y * this.tileH, this.tileW, this.tileH);
                     break;
                 case 2:
-                    ctx.drawImage(this.tiles, 26, 0, 27, 48, x * this.tileW, y * this.tileH, this.tileW, this.tileH)
+                    ctx.drawImage(imageLoader.images['tiles'], 26, 0, 27, 48, x * this.tileW, y * this.tileH, this.tileW, this.tileH)
                     break;
                 case 3:
-                    ctx.drawImage(this.tiles, 81, 0, 27, 48, x * this.tileW, y * this.tileH, this.tileW, this.tileH);
+                    ctx.drawImage(imageLoader.images['tiles'], 81, 0, 27, 48, x * this.tileW, y * this.tileH, this.tileW, this.tileH);
                     break;
                 case 4:
-                    ctx.drawImage(this.tiles, 54, 0, 27, 48, x * this.tileW, y * this.tileH, this.tileW, this.tileH);
+                    ctx.drawImage(imageLoader.images['tiles'], 54, 0, 27, 48, x * this.tileW, y * this.tileH, this.tileW, this.tileH);
                     break;
             }
         }

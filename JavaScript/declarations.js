@@ -2,10 +2,30 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
-var bullets = [];
-var enemies = [];
-var players = [];
-var EnemyBullets = [];
+canvas.style.display = 'none';
+
+var gameOver = document.getElementById('gameOver');
+gameOver.style.display = 'none';
+
+var gameComplete = document.getElementById('gameComplete');
+gameComplete.style.display = 'none';
+
+var requestanimationframe;
+
+var game = null;
+
+function newGame() 
+{
+    canvas.style.display = "block";
+    
+	var menu = document.getElementById('menu')
+    menu.style.display = "none";
+
+    game = new SnowBros();
+
+    new loop();
+	
+}
 
 
 var enemyData = {
@@ -34,29 +54,9 @@ var enemyData = {
     }
 
 
-var game = new SnowBros();
-var character = new Player(650,500,37,39,38,32);
-players.push(character);
-// 
+var imageLoader = new ImageLoader();
+imageLoader.init();
 
-function enemyCreator()
-{
-for(var i=0;i<5;i++)
-{
-var enemy = new Enemy(Math.floor((Math.random() * 18) + 1)*50,-50,enemyData.redEnemy);
-enemies.push(enemy);
-}
-}
-function enemyAnimator()
-{
-for(var i=0;i<5;i++)
-{
-enemies[i].createEnemies();
-enemies[i].isAlive = true;
-}
-}
 
-new enemyCreator();
-new enemyAnimator();
 window.addEventListener("keydown", movePlayer);
 window.addEventListener("keydown", pauseGame);

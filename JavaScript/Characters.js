@@ -174,10 +174,10 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
 
 }
 
-function Bullet(char){
-  this.char = char;
-  this.x = this.char.x;
-  this.y = this.char.y;
+function Bullet(obj){
+  this.obj = obj;
+  this.x = this.obj.x;
+  this.y = this.obj.y;
   this.xs = 10
   this.ys = -3
   this.gravity = 0.5 

@@ -10,3 +10,51 @@
     margin-left: 180px;
     margin-top: 16px;
 }
+
+#menu
+{
+    width: 1000px;
+    height: 600px;
+    margin-left: 180px;
+    margin-top: 16px;
+    position: relative;
+    background-image: url('../Images/snowbros.jpg');
+    background-size: 100%;
+}
+
+.button
+{
+    width: 200px;
+    position: absolute;
+    left: 400px;
+    top: 500px;
+}
+
+.button:focus{
+    outline: none;
+}
+
+
+#gameOver
+{
+    width: 1000px;
+    height: 600px;
+    margin-left: 180px;
+    margin-top: 16px;
+    background: url('../Images/gameover.png') no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-color: black
+}
+
+#gameComplete
+{
+    width: 1000px;
+    height: 600px;
+    margin-left: 180px;
+    margin-top: 16px;
+    background: url('../Images/gamecomplete.jpg') no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-color: black
+}
