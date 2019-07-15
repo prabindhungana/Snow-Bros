@@ -4,6 +4,7 @@ var ctx = canvas.getContext("2d");
 
 canvas.style.display = "none";
 
+// get elements from dom
 var loading = document.getElementById("loading");
 
 var menu = document.getElementById("menu");
