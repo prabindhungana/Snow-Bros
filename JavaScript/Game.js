@@ -34,7 +34,7 @@ this.enemyCreator = function()
 {
 for(var i=0;i<this.noOfEnemies;i++)
 {
-var enemy = new Enemy(Math.floor((Math.random() * 18) + 1)*50,-50,enemyData.redEnemy);
+var enemy = new Enemy(getRandomNumber(18,1)*this.tileW,-this.tileH,enemyData.redEnemy);
 this.enemies.push(enemy);
 }
 }

@@ -2,6 +2,11 @@ function clearCanvas() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
+function getRandomNumber(max,min)
+{
+  return Math.floor((Math.random() * max) + min);
+}
+
 function createBullet(char) {
   this.char = char;
   this.bullet = new Bullet(this.char);
