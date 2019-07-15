@@ -5,6 +5,7 @@ audioLoader.audios['gamestart'].pause();
 audioLoader.audios['gamestart'].currentTime = 0;
 
 audioLoader.audios['startlevel'].play();
+audioLoader.audios['startlevel'].loop = true;
 
 this.noOfEnemies = 5;
 

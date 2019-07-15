@@ -340,11 +340,13 @@ function levelChanger() {
         char.isRight = false;
       });
     } else if (game.currentLevel == 2) {
-      game.currentLevel++;
-      game.enemies.forEach(function(enemy,enemyIndex)
-      {
+      game.players.forEach(function(char, charIndex) {
+        char.x = 650;
+        char.y = 500;
+        char.isRight = false;
         enemy.xs = 3;
-      })
+      });
+      game.currentLevel++;
       game.enemyCreator();
     }
       else if(game.currentLevel ==3)

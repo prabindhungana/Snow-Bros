@@ -51,6 +51,7 @@ var interval = setInterval(function() {
     loading.style.display = "none";
     menu.style.display = "block";
     audioLoader.audios["gamestart"].play();
+    audioLoader.audios["gamestart"].loop = true;
     clearInterval(interval);
   } else {
     loading.style.display = "block";
