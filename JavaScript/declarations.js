@@ -61,3 +61,17 @@ var interval = setInterval(function() {
 
 window.addEventListener("keydown", movePlayer);
 window.addEventListener("keydown", pauseGame);
+
+var firebaseConfig = {
+  apiKey: "AIzaSyD2ryaXbl7Aox40RPu_1s6Qxn9riqRuxEk",
+  authDomain: "snowbros-4236e.firebaseapp.com",
+  databaseURL: "https://snowbros-4236e.firebaseio.com",
+  projectId: "snowbros-4236e",
+  storageBucket: "snowbros-4236e.appspot.com",
+  messagingSenderId: "689290074102",
+  appId: "1:689290074102:web:b6e1ea4a9de24ab8"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+var highscoreRef = firebase.database().ref('scores');

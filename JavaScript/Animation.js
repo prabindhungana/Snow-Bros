@@ -29,5 +29,6 @@ function loop() {
   checkHealth();
   checkEnemiesStatus();
   levelChanger();
+  displayScore();
   // bulletCollision();
 }

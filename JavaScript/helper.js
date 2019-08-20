@@ -173,6 +173,7 @@ function killEnemy() {
         for (var i = 0; i < game.enemies.length; i++) {
           if (enemy != game.enemies[i] && enemy.isCollided) {
             if (isCollision(enemy, game.enemies[i])) {
+              game.players[0].score += 200;
               game.enemies.splice(i, 1);
             }
           }
@@ -182,6 +183,7 @@ function killEnemy() {
           (enemy.x >= canvas.width - enemy.height &&
             enemy.y >= canvas.height - enemy.height * 2)
         ) {
+          game.players[0].score+=100
           game.enemies.splice(enemyIndex, 1);
         }
       }
@@ -369,7 +371,8 @@ function levelChanger() {
   if (game.levelFlag == true && game.currentLevel<=3) {
     ctx.font = "30px Arial";
     ctx.textAlign = "center";
-    ctx.fillText("Level: " + game.currentLevel, canvas.width / 2, 50);
+    ctx.fillStyle = "deeppink";
+    ctx.fillText("LEVEL " + game.currentLevel, canvas.width / 2, 70);
     game.levelDelay++;
     if (game.levelDelay == 100) {
       game.enemyAnimator();
@@ -381,6 +384,20 @@ function levelChanger() {
     {
       game=null;
     }
+}
+
+function displayScore()
+{
+  
+  ctx.font = "30px Arial";
+  ctx.textAlign = "center";
+  ctx.strokeText("score: " + game.players[0].score, canvas.width/2, 30);
+  ctx.strokeText("highscore: "+ game.players[0].highscore, 825,30)
+  if(game.players[0].score>game.players[0].highscore)
+  {
+    game.players[0].highscore=game.players[0].score;
+    highscoreRef.set({highscore:game.players[0].highscore});
+  }
 }
 
 // function bulletCollision()

@@ -22,6 +22,17 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
   this.jumping = false;
   this.jumpCount = 0;
   this.isPlayerDead = false;
+  this.score = 0;
+  this.highscore = 0;
+
+  that = this;
+
+  this.scoreRef = firebase.database().ref('scores').child('highscore');
+
+  this.scoreRef.on('value', function(data)
+  {
+    that.highscore= data.val();
+  });
 
   this.moveRight = function() {
     this.isRight = true;
@@ -198,52 +209,50 @@ function Enemy(x,y,enemyName)
   this.height = 50;
   this.health = this.enemyName.health;
   this.meltCounter = 0;
-  this.enemyChar = new Image();
 
 
   this.createEnemies= function()
   {
-    this.enemyChar.src = "./Images/sb2.gif";
     switch(this.health)
     {
     case 0:
       if(this.isCollided)
       {
-        ctx.drawImage(this.enemyChar,108, 2096,25,22, this.x, this.y, this.width, this.height);
+        ctx.drawImage(imageLoader.images['enemychar'],108, 2096,25,22, this.x, this.y, this.width, this.height);
       }
       else
-        ctx.drawImage(this.enemyChar,108, 2096,24,22, this.x, this.y, this.width, this.height);
+        ctx.drawImage(imageLoader.images['enemychar'],108, 2096,24,22, this.x, this.y, this.width, this.height);
         break;
     case 1:
         if(this.ismovingRight)
         {
-          ctx.drawImage(this.enemyChar,270, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+          ctx.drawImage(imageLoader.images['enemychar'],270, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
         }
         else
         {
-          ctx.drawImage(this.enemyChar,this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+          ctx.drawImage(imageLoader.images['enemychar'],this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
         }
-        ctx.drawImage(this.enemyChar,242, 2165,25,32, this.x, this.y, this.width, this.height);
+        ctx.drawImage(imageLoader.images['enemychar'],242, 2165,25,32, this.x, this.y, this.width, this.height);
         break;
     case 2:
       if(this.ismovingRight)
         {
-          ctx.drawImage(this.enemyChar,270, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+          ctx.drawImage(imageLoader.images['enemychar'],270, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
         }
         else
         {
-          ctx.drawImage(this.enemyChar,this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+          ctx.drawImage(imageLoader.images['enemychar'],this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
         }
-        ctx.drawImage(this.enemyChar,217, 2165,25,32, this.x, this.y, this.width, this.height);
+        ctx.drawImage(imageLoader.images['enemychar'],217, 2165,25,32, this.x, this.y, this.width, this.height);
         break
     case 3:
       if(this.ismovingRight)
       {
-        ctx.drawImage(this.enemyChar,270, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+        ctx.drawImage(imageLoader.images['enemychar'],270, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
       }
       else
       {
-        ctx.drawImage(this.enemyChar,this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+        ctx.drawImage(imageLoader.images['enemychar'],this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
       }
   }
     
@@ -255,16 +264,16 @@ function Enemy(x,y,enemyName)
       {
         if(this.ismovingRight)
         {
-          ctx.drawImage(this.enemyChar,270, 32,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+          ctx.drawImage(imageLoader.images['enemychar'],270, 32,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
         }
         else
         {
-          ctx.drawImage(this.enemyChar,this.enemyName.fallPosX, this.enemyName.fallPosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
+          ctx.drawImage(imageLoader.images['enemychar'],this.enemyName.fallPosX, this.enemyName.fallPosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
         }
       }
       
       else if(this.isCollided)
-      ctx.drawImage(this.enemyChar,108, 2096,24,22, this.x, this.y, this.width, this.height);
+      ctx.drawImage(imageLoader.images['enemychar'],108, 2096,24,22, this.x, this.y, this.width, this.height);
     }
   }
 

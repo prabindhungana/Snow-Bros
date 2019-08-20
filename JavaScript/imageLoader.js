@@ -11,6 +11,7 @@ function ImageLoader() {
     this.loadImage("character", "./Images/sbd1.png");
     this.loadImage("rightbullet", "./Images/bulletone_right2.png");
     this.loadImage("leftbullet", "./Images/bulletone_left2.png");
+    this.loadImage("enemychar", "./Images/sb2.gif")
     this.numberOfImages = Object.keys(this.images).length;
   };
 

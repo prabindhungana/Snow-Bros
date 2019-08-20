@@ -8,7 +8,6 @@ audioLoader.audios['startlevel'].play();
 audioLoader.audios['startlevel'].loop = true;
 
 this.noOfEnemies = 5;
-
 this.bullets = [];
 this.enemies = [];
 this.players = [];
