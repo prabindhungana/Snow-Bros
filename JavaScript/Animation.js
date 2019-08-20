@@ -30,5 +30,6 @@ function loop() {
   checkEnemiesStatus();
   levelChanger();
   displayScore();
+  updateHighScore();
   // bulletCollision();
 }

@@ -393,6 +393,10 @@ function displayScore()
   ctx.textAlign = "center";
   ctx.strokeText("score: " + game.players[0].score, canvas.width/2, 30);
   ctx.strokeText("highscore: "+ game.players[0].highscore, 825,30)
+}
+
+function updateHighScore()
+{
   if(game.players[0].score>game.players[0].highscore)
   {
     game.players[0].highscore=game.players[0].score;

@@ -31,7 +31,13 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
 
   this.scoreRef.on('value', function(data)
   {
+    if(data.val()===null)
+    {
+      that.highscore = 0
+    }
+    else{
     that.highscore= data.val();
+    }
   });
 
   this.moveRight = function() {
