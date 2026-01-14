@@ -10,6 +10,9 @@ var loading = document.getElementById("loading");
 var menu = document.getElementById("menu");
 menu.style.display = "none";
 
+var startButton = document.getElementById("startButton");
+startButton.addEventListener("click", newGame);
+
 var gameOver = document.getElementById("gameOver");
 gameOver.style.display = "none";
 

@@ -7,7 +7,7 @@
     <body>
         <canvas id="canvas" height="600" width="1000"></canvas>
         <div id="menu">
-            <input type="image" class="button" name="play" src="./Images/startgame.png" alt="play" onclick="newGame()">
+            <input type="image" id="startButton" class="button" name="play" src="./Images/startgame.png" alt="play">
         </div>
         <div id = "loading"> Loading... </div>
         <div id="gameOver">
@@ -19,6 +19,7 @@
         <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
         <script src="./JavaScript/imageLoader.js"></script>
         <script src="./JavaScript/audioLoader.js"></script>
+        <script src="./JavaScript/levels.js"></script>
         <script src="./JavaScript/Game.js"></script>
         <script src="./JavaScript/listener.js"></script>
         <script src="./JavaScript/helper.js"></script>
