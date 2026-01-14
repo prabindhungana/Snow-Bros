@@ -5,11 +5,7 @@ function movePlayer(event) {
     {
     switch (event.keyCode) {
       case char.leftKey:
-        if (!char.x <= 0 && !char.falling) {
-          char.x -= 10;
-          char.movingLeft = true;
-          char.moveLeft();
-        }
+        char.movingLeft = true;
         break;
       case char.jumpKey:
           if(char.jumpCount==0 && !char.falling)
@@ -18,11 +14,7 @@ function movePlayer(event) {
           }
         break;
       case char.rightkey:
-        if (char.x <= canvas.width - game.tileW && !char.falling) {
-          char.x += 10;
-          char.movingRight = true;
-          char.moveRight();
-        }
+        char.movingRight = true;
         break;
         case char.shootKey:
           createBullet(char);
@@ -30,6 +22,19 @@ function movePlayer(event) {
     }
     }
   })
+  }
+
+  function stopPlayer(event) {
+    game.players.forEach(function(char) {
+      switch (event.keyCode) {
+        case char.leftKey:
+          char.movingLeft = false;
+          break;
+        case char.rightkey:
+          char.movingRight = false;
+          break;
+      }
+    });
   }
 
   function pauseGame(event)
