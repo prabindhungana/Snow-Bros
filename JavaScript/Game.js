@@ -46,6 +46,12 @@ SnowBros.prototype.setupEnemies = function() {
     }
 };
 
+SnowBros.prototype.enemyCreator = function() {
+    this.enemies = [];
+    this.EnemyBullets = [];
+    this.setupEnemies();
+};
+
 SnowBros.prototype.initializeMap = function() {
     window.addEventListener("load", function() {
         game.insertBackground();
