@@ -331,7 +331,7 @@ function checkEnemiesStatus() {
 }
 
 function levelChanger() {
-  if (game.enemies.length == 0) {
+  if (game.enemies.length == 0 && !game.levelFlag) {
     game.levelFlag = true;
     if (game.currentLevel == 1) {
       game.currentLevel++;
