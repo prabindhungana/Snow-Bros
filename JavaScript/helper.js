@@ -311,6 +311,9 @@ function moveEnemies() {
           ) {
             enemy.x += enemy.xs;
           }
+          if (enemy.isCollided && !game.paused && Math.abs(enemy.xs) > 0) {
+            enemy.rollAngle += enemy.xs * 0.08;
+          }
           enemy.createEnemies();
         }
       }

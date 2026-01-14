@@ -217,6 +217,7 @@ function Enemy(x,y,enemyName)
   this.jumpcount = 0;
   this.chaseCounter = 0;
   this.snowChange = 0;
+  this.rollAngle = 0;
   this.ismovingRight = false;
   this.isRight = false;
   this.isgeneratedRight = false;
@@ -239,13 +240,26 @@ function Enemy(x,y,enemyName)
     switch(this.health)
     {
     case 0:
-      if(this.isCollided)
-      {
-        ctx.drawImage(imageLoader.images['enemychar'],108, 2096,25,22, this.x, this.y, this.width, this.height);
+      if (this.isCollided && Math.abs(this.xs) > 0) {
+        ctx.save();
+        ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
+        ctx.rotate(this.rollAngle);
+        ctx.drawImage(
+          imageLoader.images['enemychar'],
+          108,
+          2096,
+          24,
+          22,
+          -this.width / 2,
+          -this.height / 2,
+          this.width,
+          this.height
+        );
+        ctx.restore();
+      } else {
+        ctx.drawImage(imageLoader.images['enemychar'], 108, 2096, 24, 22, this.x, this.y, this.width, this.height);
       }
-      else
-        ctx.drawImage(imageLoader.images['enemychar'],108, 2096,24,22, this.x, this.y, this.width, this.height);
-        break;
+      break;
     case 1:
         if(this.ismovingRight)
         {
@@ -299,5 +313,3 @@ function Enemy(x,y,enemyName)
       ctx.drawImage(imageLoader.images['enemychar'],108, 2096,24,22, this.x, this.y, this.width, this.height);
     }
   }
-
-
