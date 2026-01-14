@@ -340,12 +340,24 @@ function levelChanger() {
         char.x = 650;
         char.y = 500;
         char.isRight = false;
+        char.jumping = false;
+        char.jumpCount = 0;
+        char.falling = false;
+        char.gravity = 2;
+        char.movingLeft = false;
+        char.movingRight = false;
       });
     } else if (game.currentLevel == 2) {
       game.players.forEach(function(char, charIndex) {
         char.x = 650;
         char.y = 500;
         char.isRight = false;
+        char.jumping = false;
+        char.jumpCount = 0;
+        char.falling = false;
+        char.gravity = 2;
+        char.movingLeft = false;
+        char.movingRight = false;
       });
       game.currentLevel++;
       game.enemyCreator();
