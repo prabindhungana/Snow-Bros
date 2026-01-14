@@ -233,10 +233,34 @@ function Enemy(x,y,enemyName)
   this.height = 50;
   this.health = this.enemyName.health;
   this.meltCounter = 0;
+  this.walkFrameIndex = 0;
+  this.walkFrameTick = 0;
+  this.walkFrameDelay = 8;
+
+  this.getWalkFrameX = function() {
+    var leftFrames = this.enemyName.walkFramesLeft || [this.enemyName.spritePosX];
+    var rightFrames = this.enemyName.walkFramesRight || [this.enemyName.spritePosX];
+    var frames = this.ismovingRight ? rightFrames : leftFrames;
+
+    if (!this.isMoving || this.falling || this.jumping || game.paused) {
+      this.walkFrameIndex = 0;
+      this.walkFrameTick = 0;
+      return frames[0];
+    }
+
+    this.walkFrameTick++;
+    if (this.walkFrameTick >= this.walkFrameDelay) {
+      this.walkFrameTick = 0;
+      this.walkFrameIndex = (this.walkFrameIndex + 1) % frames.length;
+    }
+
+    return frames[this.walkFrameIndex];
+  };
 
 
   this.createEnemies= function()
   {
+    var walkFrameX = this.getWalkFrameX();
     switch(this.health)
     {
     case 0:
@@ -261,36 +285,45 @@ function Enemy(x,y,enemyName)
       }
       break;
     case 1:
-        if(this.ismovingRight)
-        {
-          ctx.drawImage(imageLoader.images['enemychar'],270, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
-        }
-        else
-        {
-          ctx.drawImage(imageLoader.images['enemychar'],this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
-        }
+        ctx.drawImage(
+          imageLoader.images['enemychar'],
+          walkFrameX,
+          this.enemyName.spritePosY,
+          this.enemyName.spriteWidth,
+          this.enemyName.spriteHeight,
+          this.x,
+          this.y,
+          this.width,
+          this.height
+        );
         ctx.drawImage(imageLoader.images['enemychar'],242, 2165,25,32, this.x, this.y, this.width, this.height);
         break;
     case 2:
-      if(this.ismovingRight)
-        {
-          ctx.drawImage(imageLoader.images['enemychar'],270, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
-        }
-        else
-        {
-          ctx.drawImage(imageLoader.images['enemychar'],this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
-        }
+      ctx.drawImage(
+        imageLoader.images['enemychar'],
+        walkFrameX,
+        this.enemyName.spritePosY,
+        this.enemyName.spriteWidth,
+        this.enemyName.spriteHeight,
+        this.x,
+        this.y,
+        this.width,
+        this.height
+      );
         ctx.drawImage(imageLoader.images['enemychar'],217, 2165,25,32, this.x, this.y, this.width, this.height);
         break
     case 3:
-      if(this.ismovingRight)
-      {
-        ctx.drawImage(imageLoader.images['enemychar'],270, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
-      }
-      else
-      {
-        ctx.drawImage(imageLoader.images['enemychar'],this.enemyName.spritePosX, this.enemyName.spritePosY,this.enemyName.spriteWidth,this.enemyName.spriteHeight, this.x, this.y, this.width, this.height);
-      }
+      ctx.drawImage(
+        imageLoader.images['enemychar'],
+        walkFrameX,
+        this.enemyName.spritePosY,
+        this.enemyName.spriteWidth,
+        this.enemyName.spriteHeight,
+        this.x,
+        this.y,
+        this.width,
+        this.height
+      );
   }
     
   }  

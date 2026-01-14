@@ -38,6 +38,8 @@ var enemyData = {
     spriteHeight: 32,
     spritePosX: 120,
     spritePosY: 0,
+    walkFramesLeft: [120, 149],
+    walkFramesRight: [270, 299],
     fallPosX: 120,
     fallPosY: 32
   }
