@@ -241,11 +241,10 @@ function Enemy(x,y,enemyName)
     var leftFrames = this.enemyName.walkFramesLeft || [this.enemyName.spritePosX];
     var rightFrames = this.enemyName.walkFramesRight || [this.enemyName.spritePosX];
     var frames = this.ismovingRight ? rightFrames : leftFrames;
-    var isWalking = !this.falling && !this.jumping && !game.paused && Math.abs(this.xs) > 0;
+    var isWalking =
+      !this.falling && !this.jumping && !game.paused && Math.abs(this.xs) > 0;
 
-    if (!isWalking) {
-
-    if (!this.isMoving || this.falling || this.jumping || game.paused) {
+    if (!this.isMoving || !isWalking) {
       this.walkFrameIndex = 0;
       this.walkFrameTick = 0;
       return frames[0];
