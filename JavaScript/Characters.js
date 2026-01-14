@@ -11,6 +11,7 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
   this.shootKey = shootKey;
   this.width = 50;
   this.height = 50;
+  this.moveSpeed = 4;
   this.gravity = 2;
   this.yGravity = 0.2;
   this.posX = 0;
@@ -24,6 +25,8 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
   this.isPlayerDead = false;
   this.score = 0;
   this.highscore = 0;
+  this.movingLeft = false;
+  this.movingRight = false;
 
   that = this;
 
@@ -114,6 +117,20 @@ function Player(x, y,leftKey, rightKey, jumpKey,shootKey) {
       );
     }
   }
+
+  this.applyHorizontalMovement = function() {
+    if (this.movingLeft && !this.movingRight && !this.falling) {
+      if (this.x > 0) {
+        this.x -= this.moveSpeed;
+        this.moveLeft();
+      }
+    } else if (this.movingRight && !this.movingLeft && !this.falling) {
+      if (this.x <= canvas.width - game.tileW) {
+        this.x += this.moveSpeed;
+        this.moveRight();
+      }
+    }
+  };
 
   this.createGravity = function()
 {
@@ -282,6 +299,5 @@ function Enemy(x,y,enemyName)
       ctx.drawImage(imageLoader.images['enemychar'],108, 2096,24,22, this.x, this.y, this.width, this.height);
     }
   }
-
 
 
