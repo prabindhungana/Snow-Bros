@@ -10,6 +10,9 @@ var loading = document.getElementById("loading");
 var menu = document.getElementById("menu");
 menu.style.display = "none";
 
+var startButton = document.getElementById("startButton");
+startButton.addEventListener("click", newGame);
+
 var gameOver = document.getElementById("gameOver");
 gameOver.style.display = "none";
 
@@ -61,6 +64,7 @@ var interval = setInterval(function() {
 
 window.addEventListener("keydown", movePlayer);
 window.addEventListener("keydown", pauseGame);
+window.addEventListener("keyup", stopPlayer);
 
 var firebaseConfig = {
   apiKey: "AIzaSyD2ryaXbl7Aox40RPu_1s6Qxn9riqRuxEk",

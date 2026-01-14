@@ -346,10 +346,12 @@ function levelChanger() {
         char.x = 650;
         char.y = 500;
         char.isRight = false;
-        enemy.xs = 3;
       });
       game.currentLevel++;
       game.enemyCreator();
+      game.enemies.forEach(function(enemy) {
+        enemy.xs = 3;
+      });
     }
       else if(game.currentLevel ==3)
       {
