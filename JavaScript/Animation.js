@@ -5,6 +5,7 @@ function loop() {
   game.insertBackground();
   game.createMap();
   game.players.forEach(function(char, charIndex) {
+    char.applyHorizontalMovement();
     if (!char.falling && !char.jumping) {
       char.generateCharacter();
     }
