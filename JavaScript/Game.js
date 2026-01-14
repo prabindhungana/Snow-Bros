@@ -51,6 +51,10 @@ SnowBros.prototype.initializeMap = function() {
         game.insertBackground();
         game.createMap();
     });
+    window.onload = function() {
+        game.insertBackground();
+        game.createMap();
+    };
 };
 
 SnowBros.prototype.insertBackground = function() {
