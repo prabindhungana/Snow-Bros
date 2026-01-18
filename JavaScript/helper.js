@@ -268,6 +268,7 @@ function setEnemyGravity()
     }
     else{
       enemy.falling = false;
+      enemy.isMoving = true;
     }
   }
   })
